@@ -1,0 +1,14 @@
+Add "add_writeops_to_batch()".  Or maybe we don't need the singular form?
+    Maybe a better name is add_[read|write]op_to_cpu() and add_[read|write]op_to_cpus()?
+
+print_approved_list() looks like it will fail if check_msr() isn't called first.
+    Ditto for msr_read_check() and msr_write_check().  If msr_list is NULL, those
+    functions should call msr_check on their own to initialize the list rather than
+    failing.
+
+Should print_op() be extern?  If you're only using the function within the library
+    then (if the library only takes up one file) mark the function static and put
+    the function declaration at the top of the C file.  Putting the function in the
+    header means that you expect the end user to make use of the function, and I
+    don't think you're exposing ops to the user.
+
